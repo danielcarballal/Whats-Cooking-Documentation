@@ -35,6 +35,7 @@
 		$new_healthy = mysql_real_escape_string($_POST['healthy']);
 		$new_veggie = mysql_real_escape_string($_POST['veggie']);
 		$new_url = mysql_real_escape_string($_POST['url']);
+		$rating = $new_rating;
 		if($new_veggie == 'on')
 		{
 			$veg = 1;
@@ -46,8 +47,7 @@
 
 		mysql_query("INSERT INTO Platters(cost, name, restaurantID, rating, image_url, garlicky, savouriness, spiciness, sweetness, uniqueness, vegetarian, healthy) VALUES ($new_cost, '$new_name', '$rest_id', $new_rating, '$new_url', $new_garlic, $new_savoury, $new_spicy, $new_sweet, $new_unique, $veg, $new_healthy);") or die("Platter died");
 		$id = mysql_fetch_assoc(mysql_query("SELECT platterID FROM Platters WHERE name='$new_name' AND restaurantID='$rest_id'"))['platterID'];
-		
-		mysql_query("UPDATE Users SET sweet = ((sweet * num_ratings + ((3 - $rating) * (3 - $new_sweet) + 4) * (5/8))) / (num_ratings + 1) WHERE email='$curEmail'");
+		mysql_query("UPDATE Users SET sweet = ((sweet * num_ratings + ((3 - $rating) * (3 - $new_sweet) + 4) * (5/8))) / (num_ratings + 1) WHERE email='$curEmail'") or die("Daniel failed");
 	mysql_query("UPDATE Users SET spicy = ((spicy * num_ratings + ((3 - $rating) * (3 - $new_spicy) + 4) * (5/8))) / (num_ratings + 1) WHERE email='$curEmail'");
 	mysql_query("UPDATE Users SET uniqueness = ((uniqueness * num_ratings + ((3 - $rating) * (3 - $new_unique) + 4) * (5/8))) / (num_ratings + 1) WHERE email='$curEmail'");
 	mysql_query("UPDATE Users SET garlicky = ((garlicky * num_ratings + ((3 - $rating) * (3 - $new_garlic) + 4) * (5/8))) / (num_ratings + 1) WHERE email='$curEmail'");
